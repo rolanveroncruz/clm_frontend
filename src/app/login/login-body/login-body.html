@@ -1,0 +1,33 @@
+<div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+  <h2 class="text-[#141414] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Welcome back</h2>
+  <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+    <label class="flex flex-col min-w-40 flex-1">
+      <input
+        placeholder="Email"
+        [(ngModel)]="email"
+        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#141414] focus:outline-0 focus:ring-0 border-none bg-[#f2f2f2] focus:border-none h-14 placeholder:text-[#757575] p-4 text-base font-normal leading-normal"
+        value=""
+      />
+    </label>
+  </div>
+  <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+    <label class="flex flex-col min-w-40 flex-1">
+      <input
+        placeholder="Password"
+        [(ngModel)]="password"
+        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#141414] focus:outline-0 focus:ring-0 border-none bg-[#f2f2f2] focus:border-none h-14 placeholder:text-[#757575] p-4 text-base font-normal leading-normal"
+        value=""
+      />
+    </label>
+  </div>
+  <p class="text-[#757575] text-sm font-normal leading-normal pb-3 pt-1 px-4 underline">Forgot Password?</p>
+  <div class="flex px-4 py-3">
+    <button
+      (click)="onLoginClicked()"
+      class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 flex-1 bg-[#141414] text-white text-sm font-bold leading-normal tracking-[0.015em]"
+    >
+      <span class="truncate">Login</span>
+    </button>
+  </div>
+<!--  <p class="text-[#757575] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center underline">Don't have an account? Sign Up</p>-->
+</div>

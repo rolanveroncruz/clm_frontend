@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Header} from './top-nav/header';
+import {Header} from './header/header';
 import {HomeBody} from './home-body/home-body';
 import {Footer} from './footer/footer';
 
