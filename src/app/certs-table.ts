@@ -3,15 +3,16 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {config} from './config'
 import {Observable, tap, map} from 'rxjs';
 // @ts-ignore
-import {Certificate, GetCertsResponse} from './certs-types';
+import {Certificate, JSONCertificateToCertificate, GetCertsResponse} from './certs-types';
 import {LoginService} from './login-service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CertsTableService {
   clmServer: string;
-  allCertsList: Certificate[] = [];
+  allCertsMap: Map<string, Certificate> = new Map();
 
 
   constructor(private http: HttpClient, private loginService:LoginService) {
@@ -36,18 +37,17 @@ export class CertsTableService {
   private tap_processCertsList(theList: any): Certificate[] {
     let result: Certificate[] = [];
     for (let i=0; i<theList.certs.length; i++){
-      let cert: Certificate = theList.certs[i];
+      let cert: Certificate = JSONCertificateToCertificate(theList.certs[i]);
       result.push(cert)
+      this.allCertsMap.set(cert.subject.commonName, cert);
     }
-    this.allCertsList = result;
-    console.log("In certs-table.processCertsList()", this.allCertsList.length, " certs.");
+    console.log("In certs-table.processCertsList()", result.length, " certs.");
+    console.log("In certs-table.processCertsList()", this.allCertsMap);
     return result;
   }
 }
 
 function map_processCertsList(theList:any): GetCertsResponse{
-  console.log(theList);
   return theList;
-
 }
 

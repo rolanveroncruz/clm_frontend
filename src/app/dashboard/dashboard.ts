@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import {CertsTableService} from '../certs-table';
 // @ts-ignore
-import {GetCertsResponse} from '../certs-types'
+import {Certificate, GetCertsResponse, JSONCertificateToCertificate} from '../certs-types';
+
+
 @Component({
   selector: 'app-dashboard',
   imports: [
@@ -10,7 +12,7 @@ import {GetCertsResponse} from '../certs-types'
   styleUrl: './dashboard.scss'
 })
 export class Dashboard {
-  certsList: Certificate[] = [];
+  certsMap: Map<string, Certificate> = new Map();
   //TODO: Work on Dashboard
  constructor( private certsService: CertsTableService){
     this.certsService.getAllCerts().subscribe(
@@ -19,12 +21,10 @@ export class Dashboard {
  }
 
   private processCerts(certs:GetCertsResponse){
-   let result: Certificate[] = [];
    for(let i=0; i<certs.certs.length; i++){
-     let cert: Certificate = certs.certs[i];
-     result.push(cert)
+     let cert: Certificate = JSONCertificateToCertificate(certs.certs[i]);
+     this.certsMap.set(cert.subject.commonName, cert);
    }
-   this.certsList = result;
-    console.log("In dashboard.processCerts()", this.certsList.length, " certs.");
+    console.log("In dashboard.processCerts()", this.certsMap, " certs.");
    }
 }
