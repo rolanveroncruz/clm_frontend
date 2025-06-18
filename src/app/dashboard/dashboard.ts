@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CertsTableService} from '../certs-table';
 // @ts-ignore
 import {Certificate, GetCertsResponse, JSONCertificateToCertificate} from '../certs-types';
+import {LocalStorageService} from '../local-storage-service';
+import {LoginService} from '../login-service';
 
 
 @Component({
@@ -11,13 +13,14 @@ import {Certificate, GetCertsResponse, JSONCertificateToCertificate} from '../ce
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
-export class Dashboard {
+export class Dashboard implements OnInit {
   certsMap: Map<string, Certificate> = new Map();
   //TODO: Work on Dashboard
- constructor( private certsService: CertsTableService){
+ constructor( private certsService: CertsTableService, private loginService: LoginService) {
     this.certsService.getAllCerts().subscribe(
       certs => this.processCerts(certs),
     )
+
  }
 
   private processCerts(certs:GetCertsResponse){
@@ -27,4 +30,7 @@ export class Dashboard {
    }
     console.log("In dashboard.processCerts()", this.certsMap, " certs.");
    }
+
+  ngOnInit(): void {
+  }
 }

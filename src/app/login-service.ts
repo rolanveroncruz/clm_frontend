@@ -5,6 +5,7 @@ import {JwtService} from './jwt-service';
 import {config} from './config';
 import {PLATFORM_ID, inject} from '@angular/core';
 import {isPlatformBrowser, isPlatformServer} from '@angular/common';
+import {LocalStorageService} from './local-storage-service';
 //const CLMServer = "/api";
 
 // LoginData is the structure returned by the server when making a post to CLMServer/login.
@@ -31,7 +32,7 @@ export class LoginService {
   user: LoginResult|null = null;
 
 
-  constructor(private http: HttpClient, private jwtHelper:JwtService) {
+  constructor(private http: HttpClient, private jwtHelper:JwtService, private localStorageService:LocalStorageService) {
     const platformId = inject(PLATFORM_ID);
     console.log('Identity CSR: ', isPlatformBrowser(platformId));
     console.log('Identity SSR: ', isPlatformServer(platformId));
@@ -97,7 +98,7 @@ export class LoginService {
     let expiration = this.computeExpirationFromToken(user.token);
     this.token = user.token;
     this.user = {email : user.email, name:user.name, expiration:expiration, token:user.token} as LoginResult;
-    localStorage.setItem(lsLoginResult, JSON.stringify(this.user));
+    this.localStorageService.setItem(lsLoginResult, JSON.stringify(this.user));
 
   }
 
