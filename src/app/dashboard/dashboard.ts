@@ -1,36 +1,44 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
 import {CertsTableService} from '../certs-table';
 // @ts-ignore
-import {Certificate, GetCertsResponse, JSONCertificateToCertificate} from '../certs-types';
-import {LocalStorageService} from '../local-storage-service';
-import {LoginService} from '../login-service';
-
+import {Certificate, CertMap, GetCertsResponse, JSONCertificateToCertificate} from '../certs-types';
+import {DashboardSideNav} from './sidenav/sidenav';
+import {DashboardBody} from './dashboard-body/dashboard-body';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
+    DashboardSideNav,
+    DashboardBody
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
 export class Dashboard implements OnInit {
-  certsMap: Map<string, Certificate> = new Map();
-  //TODO: Work on Dashboard
- constructor( private certsService: CertsTableService, private loginService: LoginService) {
+ dashboardCertsMap: CertMap|undefined;
+ constructor( private certsService: CertsTableService, private ngZone: NgZone, private cdr: ChangeDetectorRef ) {
+ }
+
+  ngOnInit(): void {
     this.certsService.getAllCerts().subscribe(
       certs => this.processCerts(certs),
     )
-
- }
+  }
 
   private processCerts(certs:GetCertsResponse){
-   for(let i=0; i<certs.certs.length; i++){
-     let cert: Certificate = JSONCertificateToCertificate(certs.certs[i]);
-     this.certsMap.set(cert.subject.commonName, cert);
-   }
-    console.log("In dashboard.processCerts()", this.certsMap, " certs.");
-   }
-
-  ngOnInit(): void {
+    let tempCertMap =new Map<string, Certificate>();
+    for(let i=0; i<certs.certs.length; i++){
+      let cert: Certificate = JSONCertificateToCertificate(certs.certs[i]);
+      tempCertMap.set(cert.subject.commonName, cert);
+    }
+    console.log("in dashboard.processCerts, this.dashboardCertsMap is:", this.dashboardCertsMap);
+    let previousRef = this.dashboardCertsMap;
+    console.log("In dashboard.processCerts(), tempCertMap is:", tempCertMap, " certs.");
+      this.dashboardCertsMap = tempCertMap;
+      console.log("running in ngZone.run()")
+      console.log("In dashboard.processCerts() this.dashboardCertsMap is:", this.dashboardCertsMap, " certs.");
+      console.log("Is this.dashboardCertsMap reference new?", this.dashboardCertsMap !== previousRef);
+      this.cdr.detectChanges();
   }
+
 }

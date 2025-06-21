@@ -40,10 +40,12 @@ export class LoginService {
   }
 
   LoadFromLocalStorage(){
-    let userLoginResult = localStorage.getItem("userLoginResult");
+    let userLoginResult = this.localStorageService.getItem(lsLoginResult);
     if (userLoginResult) {
-      let user = JSON.parse(userLoginResult);
-      if (user.expiration < Date.now()) {
+      let user = JSON.parse(JSON.parse(userLoginResult));
+      let expirationDate = (new Date(user.expiration)).getTime();
+      let dateNow = Date.now();
+      if (dateNow < expirationDate) {
         this.user = user;
       }else{
         localStorage.removeItem("userLoginResult");

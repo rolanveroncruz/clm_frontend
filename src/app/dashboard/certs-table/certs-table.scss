@@ -1,0 +1,17 @@
+.cert-table{
+}
+.certs-table-container{
+}
+
+.cards-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 50px;
+}
+.example-card {
+  /* mat-card itself will fill its grid cell */
+  width: 80%; /* Ensures the card fills its grid cell horizontally */
+  height: auto; /* Allows card height to adjust to content */
+  padding: 10px;
+  margin: 10px;
+}

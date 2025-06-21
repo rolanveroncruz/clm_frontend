@@ -41,8 +41,8 @@ export class CertsTableService {
       result.push(cert)
       this.allCertsMap.set(cert.subject.commonName, cert);
     }
-    console.log("In certs-table.processCertsList()", result.length, " certs.");
-    console.log("In certs-table.processCertsList()", this.allCertsMap);
+    //console.log("In certs-table.processCertsList()", result.length, " certs.");
+    //console.log("In certs-table.processCertsList()", this.allCertsMap);
     return result;
   }
 }

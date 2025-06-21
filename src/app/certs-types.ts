@@ -18,6 +18,8 @@ export interface Certificate {
   publicKeySize: number;
   requestedServer: string;
 }
+
+export type CertMap = Map<string, Certificate>;
 export interface JSONCertificate {
   Pk: number
   SerialNumber: string
